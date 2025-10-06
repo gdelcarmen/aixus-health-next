@@ -16,5 +16,10 @@
     "tailwindcss": "3.4.4",
     "autoprefixer": "10.4.16",
     "postcss": "8.4.24"
+  },
+  "devDependencies": {
+    t"typescript": "5.3.3",
+    "@types/react": "18.2.0",
+    "@types/node": "20.5.9"
   }
 }
