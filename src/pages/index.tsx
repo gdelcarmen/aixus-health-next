@@ -21,9 +21,15 @@ export default function Home() {
         </Link>
         <Link
           href="/plan"
-          className="px-6 py-3 rounded-md border border-primary text-accent font-semibold hover:bg-secondary hover:border-secondary transition-colors"
+          className="px-6 py-3 rounded-md border border-primary text-accent font-semibold hover:bg-secondary hover:text-primary transition-colors"
         >
           View Action Plan
+        </Link>
+        <Link
+          href="/stack"
+          className="px-6 py-3 rounded-md border border-primary text-accent font-semibold hover:bg-secondary hover:text-primary transition-colors"
+        >
+          Tech Stack
         </Link>
       </div>
     </main>
