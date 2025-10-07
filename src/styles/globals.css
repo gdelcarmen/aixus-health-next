@@ -3,14 +3,27 @@
 @tailwind utilities;
 
 /* Custom global styles */
+html {
+  color-scheme: light;
+}
+
 body {
-  @apply bg-gradient-to-br from-darkbg to-darkbg2 text-gray-100;
+  @apply bg-gray-50 text-gray-900;
   font-family: 'Inter', sans-serif;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  @apply bg-gradient-to-br from-darkbg to-darkbg2 text-gray-100;
 }
 
 a {
   @apply text-accent;
 }
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -25,4 +38,3 @@ a {
 .animate-fade-in {
   animation: fade-in 0.3s ease-out both;
 }
-
