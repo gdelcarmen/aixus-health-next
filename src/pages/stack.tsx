@@ -1,8 +1,10 @@
+"use client";
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface SectionItem {
-  name: string;
+  title: string;
   description: string;
 }
 
@@ -16,99 +18,118 @@ const sections: Section[] = [
     title: "Frontend Framework",
     items: [
       {
-        name: "Next.js",
-        description: "React framework for server-side rendering and routing."
+        title: "Next.js",
+        description: "Next.js powers the app with server‑side rendering and routing",
       },
       {
-        name: "React",
-        description: "JavaScript library for building user interfaces."
+        title: "React",
+        description: "The underlying library for building the user interface",
       },
       {
-        name: "TypeScript",
-        description: "Strongly typed superset of JavaScript."
-      }
-    ]
+        title: "TypeScript",
+        description: "Adds static typing for safer and more robust code",
+      },
+    ],
   },
   {
     title: "Styling",
     items: [
       {
-        name: "Tailwind CSS",
-        description: "Utility-first CSS framework with JIT engine."
+        title: "Tailwind CSS",
+        description: "A utility‑first CSS framework for custom designs",
       },
       {
-        name: "Shadcn UI",
-        description: "Accessible React component library built on top of Tailwind."
-      }
-    ]
+        title: "shadcn/ui",
+        description:
+          "A component library built with Radix and Tailwind CSS for accessible UI primitives",
+      },
+    ],
   },
   {
     title: "Charts & Visualization",
     items: [
       {
-        name: "Recharts",
-        description: "Declarative charting library built with React and D3."
-      }
-    ]
+        title: "Recharts",
+        description: "A library for building elegant charts in React",
+      },
+    ],
   },
   {
     title: "Animations",
     items: [
       {
-        name: "Framer Motion",
-        description: "Production-ready motion library for React."
-      }
-    ]
-  }
+        title: "Framer Motion",
+        description: "A library for declarative animations in React",
+      },
+    ],
+  },
 ];
 
-export default function Stack() {
-  const [openSections, setOpenSections] = useState<Set<string>>(new Set());
+export default function TechStack() {
+  const [openSections, setOpenSections] = useState<number[]>([]);
 
-  const toggle = (title: string) => {
-    setOpenSections(prev => {
-      const set = new Set(prev);
-      if (set.has(title)) {
-        set.delete(title);
-      } else {
-        set.add(title);
-      }
-      return set;
-    });
+  const toggleSection = (index: number) => {
+    setOpenSections((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-800 to-slate-900 p-8 text-white">
-      <h1 className="text-4xl font-bold mb-6">Technology Stack</h1>
-      <p className="mb-6 text-lg">
-        Explore the tools and libraries powering AIXUS Health. Click a section to learn more.
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="max-w-3xl mx-auto p-6 text-left"
+    >
+      <h1 className="text-3xl font-bold mb-4">Our Technology Stack</h1>
+      <p className="mb-6 text-lg text-gray-300">
+        Explore the tools and technologies that power the AIXUS platform.
       </p>
       <div className="space-y-4">
-        {sections.map(section => (
-          <div key={section.title} className="border border-slate-700 rounded-xl">
-            <button
-              className="w-full flex justify-between items-center px-4 py-3 focus:outline-none"
-              onClick={() => toggle(section.title)}
+        {sections.map((section, index) => {
+          const isOpen = openSections.includes(index);
+          return (
+            <motion.div
+              layout
+              key={section.title}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="border border-primary/20 rounded-lg overflow-hidden"
             >
-              <span className="text-xl">{section.title}</span>
-              {openSections.has(section.title) ? <ChevronUp /> : <ChevronDown />}
-            </button>
-            {openSections.has(section.title) && (
-              <ul className="bg-slate-800 px-4 py-2 space-y-2 animate-fade-in">
-                {section.items.map(item => (
-                  <li
-                    key={item.name}
-                    className="p-2 rounded-md hover:bg-slate-700 transition-colors"
+              <button
+                className="flex justify-between items-center w-full px-4 py-3 bg-secondary/20 hover:bg-secondary/30 transition-colors"
+                onClick={() => toggleSection(index)}
+              >
+                <span className="font-semibold">{section.title}</span>
+                {isOpen ? (
+                  <ChevronUp className="w-5 h-5" />
+                ) : (
+                  <ChevronDown className="w-5 h-5" />
+                )}
+              </button>
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="px-4 py-3 bg-secondary/10 space-y-2"
                   >
-                    <strong>{item.name}</strong>
-                    <p className="text-sm text-slate-300">{item.description}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        ))}
+                    {section.items.map((item) => (
+                      <div key={item.title}>
+                        <h3 className="font-medium">{item.title}</h3>
+                        <p className="text-gray-300">{item.description}</p>
+                      </div>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          );
+        })}
       </div>
-    </div>
+    </motion.div>
   );
 }
