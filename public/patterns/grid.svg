@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none">
+  <rect width="10" height="10" fill="rgba(255, 255, 255, 0)" />
+  <path d="M0 .5h10M0 5.5h10M0 9.5h10M.5 0v10M5.5 0v10M9.5 0v10" stroke="rgba(148, 163, 184, 0.2)" stroke-width="0.5" />
+  <circle cx="5" cy="5" r="0.5" fill="rgba(148, 163, 184, 0.25)" />
+</svg>
