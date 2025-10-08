@@ -63,13 +63,13 @@ module.exports = {
       },
       fontSize: {
         'body-sm': ['0.9375rem', { lineHeight: '1.5' }],
-        'body-md': ['1.0625rem', { lineHeight: '1.6' }],
-        'body-lg': ['1.1875rem', { lineHeight: '1.65' }],
-        'heading-xs': ['1.25rem', { lineHeight: '1.4', letterSpacing: '-0.01em' }],
-        'heading-sm': ['1.5rem', { lineHeight: '1.35', letterSpacing: '-0.015em' }],
-        'heading-md': ['1.875rem', { lineHeight: '1.3', letterSpacing: '-0.02em' }],
-        'heading-lg': ['2.5rem', { lineHeight: '1.2', letterSpacing: '-0.025em' }],
-        'heading-xl': ['3.5rem', { lineHeight: '1.1', letterSpacing: '-0.03em' }]
+        'body-md': ['1.125rem', { lineHeight: '1.65' }],
+        'body-lg': ['1.25rem', { lineHeight: '1.7' }],
+        'heading-xs': ['1.25rem', { lineHeight: '1.35', letterSpacing: '-0.008em' }],
+        'heading-sm': ['1.5rem', { lineHeight: '1.3', letterSpacing: '-0.012em' }],
+        'heading-md': ['2rem', { lineHeight: '1.25', letterSpacing: '-0.015em' }],
+        'heading-lg': ['2.75rem', { lineHeight: '1.18', letterSpacing: '-0.02em' }],
+        'heading-xl': ['4.25rem', { lineHeight: '1.05', letterSpacing: '-0.015em' }]
       }
     },
   },
