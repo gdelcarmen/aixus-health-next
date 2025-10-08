@@ -79,10 +79,10 @@ export default function TechStack() {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-3xl mx-auto p-6 text-left"
+      className="max-w-3xl mx-auto bg-background text-foreground p-6 text-left"
     >
-      <h1 className="text-3xl font-bold mb-4">Our Technology Stack</h1>
-      <p className="mb-6 text-lg text-gray-300">
+      <h1 className="text-heading-md font-bold mb-4">Our Technology Stack</h1>
+      <p className="mb-6 text-body-md text-muted">
         Explore the tools and technologies that power the AIXUS platform.
       </p>
       <div className="space-y-4">
@@ -95,10 +95,10 @@ export default function TechStack() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="border border-primary/20 rounded-lg overflow-hidden"
+              className="border border-border rounded-lg overflow-hidden bg-surface shadow-sm"
             >
               <button
-                className="flex justify-between items-center w-full px-4 py-3 bg-secondary/20 hover:bg-secondary/30 transition-colors"
+                className="flex justify-between items-center w-full px-4 py-3 bg-surface-muted hover:bg-background-subtle transition-colors text-foreground"
                 onClick={() => toggleSection(index)}
               >
                 <span className="font-semibold">{section.title}</span>
@@ -115,12 +115,12 @@ export default function TechStack() {
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="px-4 py-3 bg-secondary/10 space-y-2"
+                    className="px-4 py-3 bg-background-subtle space-y-2"
                   >
                     {section.items.map((item) => (
                       <div key={item.title}>
                         <h3 className="font-medium">{item.title}</h3>
-                        <p className="text-gray-300">{item.description}</p>
+                        <p className="text-muted">{item.description}</p>
                       </div>
                     ))}
                   </motion.div>

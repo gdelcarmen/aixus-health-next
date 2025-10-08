@@ -42,55 +42,55 @@ export default function AIXUSDemo() {
   };
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-12 text-foreground">
       {/* Clinician dashboard */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Clinician Dashboard</h2>
+        <h2 className="text-heading-sm font-semibold mb-4">Clinician Dashboard</h2>
         <div className="flex flex-wrap gap-4 justify-center">
           {/* Hannah card */}
-          <div className="bg-secondary rounded-lg p-4 w-72 shadow-md">
-            <h3 className="font-semibold text-lg">Hannah Young</h3>
-            <p className="text-sm text-gray-400 mb-1">Appendectomy</p>
+          <div className="bg-surface rounded-lg p-4 w-72 shadow-md border border-border">
+            <h3 className="font-semibold text-heading-xs">Hannah Young</h3>
+            <p className="text-body-sm text-neutral-400 mb-1">Appendectomy</p>
             <div className="text-4xl font-bold mb-2">70</div>
-            <p className="text-sm text-yellow-400">Missing Informed Consent</p>
-            <p className="text-sm text-yellow-400">Anti-coagulant missing</p>
-            <div className="h-2 bg-darkbg rounded mt-2 mb-1 overflow-hidden">
+            <p className="text-body-sm text-warning">Missing Informed Consent</p>
+            <p className="text-body-sm text-warning">Anti-coagulant missing</p>
+            <div className="h-2 bg-surface-muted rounded mt-2 mb-1 overflow-hidden">
               <div className="h-full bg-accent" style={{ width: '85%' }}></div>
             </div>
             <p className="text-sm">85% of tasks completed</p>
           </div>
           {/* George card */}
-          <div className="bg-secondary rounded-lg p-4 w-72 shadow-md">
-            <h3 className="font-semibold text-lg">George Mallory</h3>
-            <p className="text-sm text-gray-400 mb-1">Inguinal Hernia Repair</p>
+          <div className="bg-surface rounded-lg p-4 w-72 shadow-md border border-border">
+            <h3 className="font-semibold text-heading-xs">George Mallory</h3>
+            <p className="text-body-sm text-neutral-400 mb-1">Inguinal Hernia Repair</p>
             <div className="text-4xl font-bold mb-2">93</div>
-            <p className="text-sm text-green-400">All tasks completed</p>
-            <div className="h-2 bg-darkbg rounded mt-2 mb-1 overflow-hidden">
-              <div className="h-full bg-green-400 w-full"></div>
+            <p className="text-body-sm text-success">All tasks completed</p>
+            <div className="h-2 bg-surface-muted rounded mt-2 mb-1 overflow-hidden">
+              <div className="h-full bg-success w-full"></div>
             </div>
             <p className="text-sm">100% of tasks completed</p>
           </div>
         </div>
-        <div className="bg-secondary rounded-lg p-4 mt-6 shadow-md max-w-xl mx-auto">
-          <h3 className="font-semibold text-lg mb-3">Hannah’s Outcome Concerns</h3>
+        <div className="bg-surface rounded-lg p-4 mt-6 shadow-md max-w-xl mx-auto border border-border">
+          <h3 className="font-semibold text-heading-xs mb-3">Hannah’s Outcome Concerns</h3>
           <div className="w-full h-64">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart data={radarData} outerRadius="80%">
-                <PolarGrid stroke="#143d6c" />
+                <PolarGrid stroke="var(--color-border)" />
                 <PolarAngleAxis
                   dataKey="subject"
-                  tick={{ fill: '#eef2f7', fontSize: 12 }}
+                  tick={{ fill: 'var(--color-muted)', fontSize: 12 }}
                 />
                 <PolarRadiusAxis
                   angle={30}
                   domain={[0, 10]}
-                  tick={{ fill: '#eef2f7', fontSize: 10 }}
+                  tick={{ fill: 'var(--color-muted)', fontSize: 10 }}
                 />
                 <Radar
                   name="Hannah"
                   dataKey="A"
-                  stroke="#81a7ef"
-                  fill="#81a7ef"
+                  stroke="var(--color-accent)"
+                  fill="var(--color-accent)"
                   fillOpacity={0.4}
                 />
               </RadarChart>
@@ -100,12 +100,12 @@ export default function AIXUSDemo() {
       </section>
       {/* Patient tasks */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Patient Tasks</h2>
-        <div className="bg-secondary rounded-lg p-4 mx-auto max-w-sm text-center shadow-md">
+        <h2 className="text-heading-sm font-semibold mb-4">Patient Tasks</h2>
+        <div className="bg-surface rounded-lg p-4 mx-auto max-w-sm text-center shadow-md border border-border">
           <h3 className="font-semibold mb-1">Readiness Score</h3>
           <div className="text-5xl font-bold mb-2">87</div>
-          <p className="text-sm text-gray-400">You're well prepared for surgery</p>
-          <ul className="mt-4 space-y-2 text-sm">
+          <p className="text-body-sm text-neutral-400">You're well prepared for surgery</p>
+          <ul className="mt-4 space-y-2 text-body-sm text-muted">
             <li className="flex justify-between"><span>Oct 15</span><span>Eat 85 g protein</span></li>
             <li className="flex justify-between"><span>Oct 15</span><span>Chlorhexidine bath</span></li>
             <li className="flex justify-between"><span>Oct 16</span><span>Stop anti-coagulant</span></li>
@@ -114,8 +114,8 @@ export default function AIXUSDemo() {
       </section>
       {/* Modern informed consent */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Modern Informed Consent</h2>
-        <div className="bg-secondary rounded-lg p-4 mx-auto max-w-md shadow-md">
+        <h2 className="text-heading-sm font-semibold mb-4">Modern Informed Consent</h2>
+        <div className="bg-surface rounded-lg p-4 mx-auto max-w-md shadow-md border border-border">
           <p className="mb-3">
             Welcome Hannah,<br />Dr. Grey has prepared this informed consent process for you.
           </p>
@@ -135,7 +135,7 @@ export default function AIXUSDemo() {
                 ref={(el) => (inputRefs.current[idx] = el)}
                 onChange={(e) => handleOtpChange(idx, e.target.value)}
                 onKeyDown={(e) => handleOtpKeyDown(idx, e)}
-                className="w-10 h-10 text-center text-lg rounded-md border border-primary bg-darkbg focus:outline-none text-white"
+                className="w-10 h-10 text-center text-lg rounded-md border border-border bg-surface focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground"
               />
             ))}
           </div>
@@ -143,8 +143,8 @@ export default function AIXUSDemo() {
       </section>
       {/* Recovery time */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Recovery Time</h2>
-        <div className="bg-secondary rounded-lg p-4 mx-auto max-w-md text-center shadow-md">
+        <h2 className="text-heading-sm font-semibold mb-4">Recovery Time</h2>
+        <div className="bg-surface rounded-lg p-4 mx-auto max-w-md text-center shadow-md border border-border">
           <p className="mb-4">
             Based on what you have heard so far adjust the slider to the number of days you expect to be back at work.
           </p>
@@ -154,10 +154,10 @@ export default function AIXUSDemo() {
             max={14}
             value={recoveryDays}
             onChange={(e) => setRecoveryDays(Number(e.target.value))}
-            className="w-full accent-accent mb-2"
+            className="w-full accent-primary mb-2"
           />
           <div className="mb-2">Selected: {recoveryDays} days</div>
-          <button className="px-4 py-2 rounded-md bg-primary text-white font-semibold hover:bg-primary/90">
+          <button className="px-4 py-2 rounded-md bg-primary text-primary-contrast font-semibold transition-colors hover:bg-primary-strong">
             Submit
           </button>
         </div>

@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center text-center p-6">
+    <main className="min-h-screen flex flex-col items-center justify-center bg-background text-center text-foreground p-6">
       <motion.h1
-        className="text-4xl sm:text-5xl font-bold mb-4 leading-tight"
+        className="text-heading-lg sm:text-heading-xl font-bold mb-4 leading-tight"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -16,7 +16,7 @@ export default function Home() {
         by individualizing the care pathway
       </motion.h1>
       <motion.p
-        className="max-w-xl mx-auto text-lg text-gray-300 mb-8"
+        className="max-w-xl mx-auto text-body-lg text-muted mb-8"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
@@ -32,19 +32,19 @@ export default function Home() {
       >
         <Link
           href="/demo"
-          className="px-6 py-3 rounded-md bg-primary text-white font-semibold hover:bg-primary/90 transition-colors"
+          className="px-6 py-3 rounded-md bg-primary text-primary-contrast font-semibold shadow-sm transition-colors hover:bg-primary-strong"
         >
           Explore Demo
         </Link>
         <Link
           href="/plan"
-          className="px-6 py-3 rounded-md border border-primary text-accent font-semibold hover:bg-secondary hover:border-secondary transition-colors"
+          className="px-6 py-3 rounded-md border border-border bg-background text-foreground font-semibold transition-colors hover:border-primary hover:text-primary hover:bg-background-subtle"
         >
           View Action Plan
         </Link>
         <Link
           href="/stack"
-          className="px-6 py-3 rounded-md border border-primary text-accent font-semibold hover:bg-secondary hover:border-secondary transition-colors"
+          className="px-6 py-3 rounded-md border border-border bg-background text-foreground font-semibold transition-colors hover:border-primary hover:text-primary hover:bg-background-subtle"
         >
           Tech Stack
         </Link>

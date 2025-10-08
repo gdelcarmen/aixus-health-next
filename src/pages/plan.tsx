@@ -92,14 +92,14 @@ export default function PlanPage() {
   };
 
   return (
-    <main className="min-h-screen p-6">
+    <main className="min-h-screen bg-background text-foreground p-6">
       <header className="text-center mb-6 space-y-2">
-        <h1 className="text-3xl sm:text-4xl font-bold">Action Plan Board</h1>
-        <p className="text-gray-300 max-w-3xl mx-auto">
+        <h1 className="text-heading-md sm:text-heading-lg font-bold">Action Plan Board</h1>
+        <p className="text-muted text-body-md max-w-3xl mx-auto">
           Organise tasks by priority and track progress. Drag tasks between the Now, Next and Later columns,
           filter by owner, or export your plan as JSON.
         </p>
-        <Link href="/" className="inline-block px-4 py-2 rounded-md border border-primary text-accent font-semibold hover:bg-secondary transition-colors">
+        <Link href="/" className="inline-block px-4 py-2 rounded-md border border-border bg-background text-foreground font-semibold transition-colors hover:border-primary hover:text-primary hover:bg-background-subtle">
           Back to Home
         </Link>
       </header>
@@ -108,17 +108,17 @@ export default function PlanPage() {
           value={filterOwner}
           onChange={(e) => setFilterOwner(e.target.value)}
           placeholder="Filter by owner (optional)"
-          className="flex-1 min-w-[12rem] px-3 py-2 rounded-md border border-secondary bg-darkbg text-sm focus:outline-none"
+          className="flex-1 min-w-[12rem] px-3 py-2 rounded-md border border-border bg-surface text-body-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/40"
         />
         <button
           onClick={() => setFilterOwner('')}
-          className="px-3 py-2 rounded-md bg-primary text-white font-semibold hover:bg-primary/90"
+          className="px-3 py-2 rounded-md bg-primary text-primary-contrast font-semibold transition-colors hover:bg-primary-strong"
         >
           Clear Filter
         </button>
         <button
           onClick={exportBoard}
-          className="px-3 py-2 rounded-md bg-primary text-white font-semibold hover:bg-primary/90"
+          className="px-3 py-2 rounded-md bg-primary text-primary-contrast font-semibold transition-colors hover:bg-primary-strong"
         >
           Export JSON
         </button>
@@ -129,11 +129,11 @@ export default function PlanPage() {
           return (
             <div
               key={status}
-              className="flex-1 min-w-[250px] bg-secondary rounded-lg p-4 shadow-md flex flex-col"
+              className="flex-1 min-w-[250px] bg-surface rounded-lg p-4 shadow-md flex flex-col border border-border"
               onDragOver={(e) => e.preventDefault()}
               onDrop={() => handleDrop(status)}
             >
-              <h2 className="text-xl font-semibold text-center mb-2 capitalize">{status}</h2>
+              <h2 className="text-heading-xs font-semibold text-center mb-2 capitalize">{status}</h2>
               <div className="flex-1 space-y-2 overflow-y-auto">
                 {tasks
                   .filter((t) =>
@@ -146,18 +146,18 @@ export default function PlanPage() {
                       key={task.id}
                       draggable
                       onDragStart={() => handleDragStart(task, status)}
-                      className="bg-darkbg p-2 rounded-md cursor-grab"
+                      className="bg-background-subtle p-2 rounded-md cursor-grab shadow-sm border border-border"
                     >
-                      <div className="font-semibold text-sm">{task.title}</div>
+                      <div className="font-semibold text-body-sm text-foreground">{task.title}</div>
                       {task.owner && (
-                        <div className="text-xs text-gray-400">{task.owner}</div>
+                        <div className="text-xs text-neutral-400">{task.owner}</div>
                       )}
                     </div>
                   ))}
               </div>
               <button
                 onClick={() => addTask(status)}
-                className="mt-2 px-3 py-1 rounded-md bg-darkbg text-accent text-sm hover:bg-darkbg/80"
+                className="mt-2 px-3 py-1 rounded-md bg-primary-soft text-primary-strong text-body-sm font-semibold transition-colors hover:bg-primary"
               >
                 + Add Task
               </button>
