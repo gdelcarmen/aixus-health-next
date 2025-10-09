@@ -1,7 +1,8 @@
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
-import { Moon, Sun } from 'lucide-react';
-import { useEffect, useState, type ReactNode } from 'react';
+import { Compass, Moon, Sun } from 'lucide-react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 
 interface LayoutProps {
   children: ReactNode;
@@ -10,6 +11,52 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+
+  const navItems = useMemo(
+    () => [
+      {
+        label: 'Story',
+        href: '/#hero-story',
+        isActive: pathname === '/',
+      },
+      {
+        label: 'Navigator',
+        href: '/#navigator-experience',
+        isActive: pathname === '/',
+      },
+      {
+        label: 'Action Plan',
+        href: '/plan',
+        isActive: pathname === '/plan',
+      },
+      {
+        label: 'Tech Stack',
+        href: '/stack',
+        isActive: pathname === '/stack',
+      },
+    ],
+    [pathname],
+  );
+
+  const breadcrumbs = useMemo(() => {
+    if (pathname === '/plan') {
+      return [
+        { label: 'Codex', href: '/' },
+        { label: 'Action Plan', href: '/plan' },
+      ];
+    }
+    if (pathname === '/stack') {
+      return [
+        { label: 'Codex', href: '/' },
+        { label: 'Tech Stack', href: '/stack' },
+      ];
+    }
+    return [
+      { label: 'Codex', href: '/' },
+      { label: 'Storyline', href: '/#hero-story' },
+    ];
+  }, [pathname]);
 
   useEffect(() => {
     setMounted(true);
@@ -23,24 +70,26 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors">
-      <header className="sticky top-0 z-50 border-b border-border bg-surface backdrop-blur transition-colors">
+      <header className="sticky top-0 z-50 border-b border-border bg-surface/95 backdrop-blur transition-colors">
         <nav className="mx-auto flex w-full max-w-6xl items-center justify-between gap-6 px-6 py-4">
           <Link href="/" className="text-xl font-semibold text-primary">
             AIXUS Health
           </Link>
-          <div className="flex items-center gap-6 text-sm font-medium text-muted">
-            <Link href="/" className="transition-colors hover:text-primary">
-              Home
-            </Link>
-            <Link href="/demo" className="transition-colors hover:text-primary">
-              Demo
-            </Link>
-            <Link href="/plan" className="transition-colors hover:text-primary">
-              Plan
-            </Link>
-            <Link href="/stack" className="transition-colors hover:text-primary">
-              Stack
-            </Link>
+          <div className="flex items-center gap-4 text-sm font-medium text-muted">
+            {navItems.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={`relative rounded-full border px-4 py-2 transition-colors hover:text-primary ${item.isActive ? 'border-primary/60 bg-primary/10 text-primary' : 'border-transparent'}`}
+                aria-current={item.isActive ? 'page' : undefined}
+                prefetch
+              >
+                {item.label}
+                {item.isActive && (
+                  <span className="absolute inset-x-4 bottom-1 h-0.5 rounded-full bg-primary/70" aria-hidden />
+                )}
+              </Link>
+            ))}
             <button
               type="button"
               onClick={handleToggleTheme}
@@ -59,6 +108,17 @@ export default function Layout({ children }: LayoutProps) {
             </button>
           </div>
         </nav>
+        <div className="mx-auto flex w-full max-w-6xl items-center gap-2 px-6 pb-3 text-xs font-semibold uppercase tracking-[0.4em] text-muted">
+          <Compass className="h-3.5 w-3.5" />
+          {breadcrumbs.map((crumb, index) => (
+            <span key={crumb.label} className="flex items-center gap-2">
+              {index > 0 && <span className="text-border">/</span>}
+              <Link href={crumb.href} className="hover:text-primary">
+                {crumb.label}
+              </Link>
+            </span>
+          ))}
+        </div>
       </header>
       <main className="flex-1">
         {children}

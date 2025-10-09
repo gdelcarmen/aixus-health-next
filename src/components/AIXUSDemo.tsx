@@ -1,167 +1,126 @@
 "use client";
 
-import { useState, useRef } from 'react';
-import {
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Radar,
-  ResponsiveContainer,
-} from 'recharts';
+import { useMemo, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowRight, Compass, MapPin } from 'lucide-react';
+
+import { demoScenarios } from '@/data/codex';
+import { DemoScenarioTabs } from './DemoScenarioTabs';
 
 export default function AIXUSDemo() {
-  // Recovery slider state
-  const [recoveryDays, setRecoveryDays] = useState(7);
-  // OTP input state
-  const [otp, setOtp] = useState<string[]>(Array(6).fill(''));
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [activeScenarioId, setActiveScenarioId] = useState(demoScenarios[0]?.id ?? '');
 
-  // Radar chart data
-  const radarData = [
-    { subject: 'Recovery Time', A: 7, fullMark: 10 },
-    { subject: 'Pain', A: 5, fullMark: 10 },
-    { subject: 'Hospital Stay', A: 6, fullMark: 10 },
-    { subject: 'Physical Activity', A: 4, fullMark: 10 },
-  ];
+  const activeScenario = useMemo(
+    () => demoScenarios.find((scenario) => scenario.id === activeScenarioId) ?? demoScenarios[0],
+    [activeScenarioId],
+  );
 
-  const handleOtpChange = (index: number, value: string) => {
-    if (!/^[0-9]?$/.test(value)) return;
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-    if (value && index < otp.length - 1) {
-      inputRefs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      inputRefs.current[index - 1]?.focus();
-    }
-  };
+  const progressValue = useMemo(() => {
+    const index = demoScenarios.findIndex((scenario) => scenario.id === activeScenario?.id);
+    if (index === -1) return 0;
+    return ((index + 1) / demoScenarios.length) * 100;
+  }, [activeScenario?.id]);
 
   return (
-    <div className="space-y-12 text-foreground">
-      {/* Clinician dashboard */}
-      <section>
-        <h2 className="text-heading-sm font-semibold mb-4">Clinician Dashboard</h2>
-        <div className="flex flex-wrap gap-4 justify-center">
-          {/* Hannah card */}
-          <div className="bg-surface rounded-lg p-4 w-72 shadow-md border border-border">
-            <h3 className="font-semibold text-heading-xs">Hannah Young</h3>
-            <p className="text-body-sm text-neutral-400 mb-1">Appendectomy</p>
-            <div className="text-4xl font-bold mb-2">70</div>
-            <p className="text-body-sm text-warning">Missing Informed Consent</p>
-            <p className="text-body-sm text-warning">Anti-coagulant missing</p>
-            <div className="h-2 bg-surface-muted rounded mt-2 mb-1 overflow-hidden">
-              <div className="h-full bg-accent" style={{ width: '85%' }}></div>
-            </div>
-            <p className="text-sm">85% of tasks completed</p>
-          </div>
-          {/* George card */}
-          <div className="bg-surface rounded-lg p-4 w-72 shadow-md border border-border">
-            <h3 className="font-semibold text-heading-xs">George Mallory</h3>
-            <p className="text-body-sm text-neutral-400 mb-1">Inguinal Hernia Repair</p>
-            <div className="text-4xl font-bold mb-2">93</div>
-            <p className="text-body-sm text-success">All tasks completed</p>
-            <div className="h-2 bg-surface-muted rounded mt-2 mb-1 overflow-hidden">
-              <div className="h-full bg-success w-full"></div>
-            </div>
-            <p className="text-sm">100% of tasks completed</p>
-          </div>
-        </div>
-        <div className="bg-surface rounded-lg p-4 mt-6 shadow-md max-w-xl mx-auto border border-border">
-          <h3 className="font-semibold text-heading-xs mb-3">Hannah’s Outcome Concerns</h3>
-          <div className="w-full h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <RadarChart data={radarData} outerRadius="80%">
-                <PolarGrid stroke="var(--color-border)" />
-                <PolarAngleAxis
-                  dataKey="subject"
-                  tick={{ fill: 'var(--color-muted)', fontSize: 12 }}
-                />
-                <PolarRadiusAxis
-                  angle={30}
-                  domain={[0, 10]}
-                  tick={{ fill: 'var(--color-muted)', fontSize: 10 }}
-                />
-                <Radar
-                  name="Hannah"
-                  dataKey="A"
-                  stroke="var(--color-accent)"
-                  fill="var(--color-accent)"
-                  fillOpacity={0.4}
-                />
-              </RadarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </section>
-      {/* Patient tasks */}
-      <section>
-        <h2 className="text-heading-sm font-semibold mb-4">Patient Tasks</h2>
-        <div className="bg-surface rounded-lg p-4 mx-auto max-w-sm text-center shadow-md border border-border">
-          <h3 className="font-semibold mb-1">Readiness Score</h3>
-          <div className="text-5xl font-bold mb-2">87</div>
-          <p className="text-body-sm text-neutral-400">You're well prepared for surgery</p>
-          <ul className="mt-4 space-y-2 text-body-sm text-muted">
-            <li className="flex justify-between"><span>Oct 15</span><span>Eat 85 g protein</span></li>
-            <li className="flex justify-between"><span>Oct 15</span><span>Chlorhexidine bath</span></li>
-            <li className="flex justify-between"><span>Oct 16</span><span>Stop anti-coagulant</span></li>
-          </ul>
-        </div>
-      </section>
-      {/* Modern informed consent */}
-      <section>
-        <h2 className="text-heading-sm font-semibold mb-4">Modern Informed Consent</h2>
-        <div className="bg-surface rounded-lg p-4 mx-auto max-w-md shadow-md border border-border">
-          <p className="mb-3">
-            Welcome Hannah,<br />Dr. Grey has prepared this informed consent process for you.
+    <section className="relative space-y-8 rounded-3xl border border-border/50 bg-gradient-to-b from-background-subtle/60 via-background/40 to-background/70 p-6 shadow-2xl sm:p-10">
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-primary">
+            Immersive demo
           </p>
-          <p className="mb-3">
-            While you are learning about your appendectomy we will be collecting some data to make sure you are
-            prepared for your surgery.
+          <h2 className="mt-4 text-heading-md font-semibold text-foreground sm:text-heading-lg">
+            Explore the orchestrated care workspace
+          </h2>
+          <p className="mt-2 max-w-2xl text-body-md text-muted">
+            Toggle between clinician, patient, and recovery journeys to watch the navigator workspace adapt in real time. Every persona pulls from the same Codex so storytelling stays in sync.
           </p>
-          <p className="mb-4">Please enter the six-digit code sent to your email to continue:</p>
-          <div className="flex gap-2 justify-center">
-            {otp.map((digit, idx) => (
-              <input
-                key={idx}
-                type="text"
-                inputMode="numeric"
-                maxLength={1}
-                value={digit}
-                ref={(el) => (inputRefs.current[idx] = el)}
-                onChange={(e) => handleOtpChange(idx, e.target.value)}
-                onKeyDown={(e) => handleOtpKeyDown(idx, e)}
-                className="w-10 h-10 text-center text-lg rounded-md border border-border bg-surface focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground"
+        </div>
+        <div className="flex items-center gap-3 text-xs uppercase tracking-[0.4em] text-muted">
+          <Compass className="h-4 w-4" /> Guided walkthrough
+        </div>
+      </header>
+
+      <div className="grid gap-8 lg:grid-cols-[0.4fr_1.6fr]">
+        <aside className="space-y-6 rounded-3xl border border-border/50 bg-surface/70 p-6 shadow-lg backdrop-blur">
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.4em] text-muted">Scenario path</p>
+            <div className="relative h-2 rounded-full bg-border/40">
+              <motion.div
+                className="absolute inset-y-0 left-0 rounded-full bg-primary"
+                animate={{ width: `${progressValue}%` }}
+                transition={{ duration: 0.6, ease: 'easeInOut' }}
               />
-            ))}
+            </div>
+            <p className="text-sm text-muted">{Math.round(progressValue)}% through the story</p>
+          </div>
+
+          <nav className="space-y-4">
+            {demoScenarios.map((scenario, index) => {
+              const isActive = scenario.id === activeScenario?.id;
+              return (
+                <button
+                  key={scenario.id}
+                  type="button"
+                  onClick={() => setActiveScenarioId(scenario.id)}
+                  className={`group relative flex w-full items-center gap-4 rounded-2xl border px-4 py-3 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${isActive ? 'border-primary/50 bg-primary/10 text-foreground shadow-lg' : 'border-border/60 bg-background-subtle text-muted hover:text-foreground'}`}
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border/50 bg-background">
+                    {index + 1}
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.3em]">{scenario.label}</p>
+                    <p className="text-xs text-muted">{scenario.persona}</p>
+                  </div>
+                  <motion.span
+                    initial={false}
+                    animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : -6 }}
+                    className="ml-auto text-primary"
+                  >
+                    <ArrowRight className="h-5 w-5" />
+                  </motion.span>
+                </button>
+              );
+            })}
+          </nav>
+
+          <div className="rounded-2xl border border-accent/30 bg-accent/10 p-4 text-sm text-accent">
+            <p className="font-semibold uppercase tracking-[0.4em]">Codex aligned</p>
+            <p className="mt-2 text-accent/80">
+              Active scenario data flows directly from the codex module. Update it once and the hero, demo, plan, and stack pages stay coordinated.
+            </p>
+          </div>
+        </aside>
+
+        <div className="space-y-6">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeScenario?.id}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -24 }}
+              transition={{ duration: 0.45 }}
+            >
+              <DemoScenarioTabs
+                scenarios={demoScenarios}
+                activeScenarioId={activeScenarioId}
+                onScenarioChange={setActiveScenarioId}
+              />
+            </motion.div>
+          </AnimatePresence>
+
+          <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border/60 bg-background-subtle/80 p-5 text-sm text-muted">
+            <div className="flex items-center gap-3">
+              <MapPin className="h-4 w-4" />
+              <span>
+                Persona anchors from the Codex power navigation breadcrumbs and ensure layout sections highlight the right focus areas.
+              </span>
+            </div>
+            <span className="rounded-full border border-border/60 px-3 py-1 text-xs uppercase tracking-[0.4em]">
+              Codex synced
+            </span>
           </div>
         </div>
-      </section>
-      {/* Recovery time */}
-      <section>
-        <h2 className="text-heading-sm font-semibold mb-4">Recovery Time</h2>
-        <div className="bg-surface rounded-lg p-4 mx-auto max-w-md text-center shadow-md border border-border">
-          <p className="mb-4">
-            Based on what you have heard so far adjust the slider to the number of days you expect to be back at work.
-          </p>
-          <input
-            type="range"
-            min={1}
-            max={14}
-            value={recoveryDays}
-            onChange={(e) => setRecoveryDays(Number(e.target.value))}
-            className="w-full accent-primary mb-2"
-          />
-          <div className="mb-2">Selected: {recoveryDays} days</div>
-          <button className="px-4 py-2 rounded-md bg-primary text-primary-contrast font-semibold transition-colors hover:bg-primary-strong">
-            Submit
-          </button>
-        </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
